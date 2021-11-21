@@ -58,11 +58,47 @@ end
 function string.contains(str,key) 
     return string.match(str, key) ~= nil
 end
-function isComment(line) -- lazy temp solution
-    -- TODO know when a comment starts /* and then ends */
-    if string.match(line,"//") ~= nil then return false end
-    if string.match(line,"/*") ~= nil then return false end
-    return true
+local block_comment = nil
+function isCommented(line)
+    -- detects comment start /* and comment end */
+    if not block_comment then
+        local blockstart = string.find(line, "/%*")
+        if blockstart then
+            -- print("Block comment start: "..line)
+            block_comment = true
+
+            local blockend = string.find(line, "%*/")
+            if blockend and blockend > blockstart then
+                -- print("Block comment end same line")
+                block_comment = nil
+            end
+        end
+        
+    elseif block_comment then
+        local blockend = string.find(line, "%*/")
+        if blockend then
+            -- print("Block comment end: "..line)
+            block_comment = nil
+
+            local blockstart = string.find(line, "/%*")
+            if blockstart and blockstart > blockend then
+                -- print("Block comment start same line")
+                block_comment = true
+            end
+        end
+    end
+    return block_comment
+end
+function removeLineComment(line)
+    -- example: function(...) // this is a comment
+    -- ' // this is a comment' will be removed
+    local removed = false
+    local pos = string.find(line, "//")
+    if pos then
+        line = line:sub(1, pos-1)
+        removed = true
+    end
+    return line, removed
 end
 function isCreateObject(line)
     return string.contains(line,"CreateObject") or string.contains(line,"CreateDynamicObject")
@@ -167,8 +203,8 @@ function parseTextureStudioMap(filename) -- [Exported]  type: shared
 
         Lines = split(str,'\n' )
         for i = 1, #Lines do
-            local line = Lines[i]
-            if not isComment(line) then
+            local line, removed = removeLineComment(Lines[i])
+            if line ~= "" and not isCommented(line) then
 
                 if isAddSimpleModel(line) then
                     local baseid, newid, dffname, txdname = parseAddSimpleModel(line)
@@ -188,7 +224,7 @@ function parseTextureStudioMap(filename) -- [Exported]  type: shared
                 end
                 if isCreateObject(line) then
                     local objdetails = ""
-                    if string.find(line, "=") then -- has variable = createObject
+                    if string.find(line, "=") then -- variable = createObject
                         objdetails = split(line,"=")
                         objdetails = objdetails[2] or ""
                     else

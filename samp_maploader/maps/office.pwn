@@ -4,6 +4,12 @@ AddSimpleModel(-1, 19475, -7060, "bigtire.dff", "bigtire.txd");
 AddSimpleModel(-1, 19475, -7063, "money.dff", "money.txd");
 AddSimpleModel(-1, 19475, -7068, "celltoilet.dff", "celltoilet.txd");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* This is a test comment
+that is on
+multiple lines */
+
+/* this is a comment that ends in same line */
 tmpobjid = CreateDynamicObject(19379, 1928.189941, -357.559570, 49.609832, 0.000000, 90.000000, 90.000000, -1, -1, -1, 300.00, 300.00); 
 SetDynamicObjectMaterial(tmpobjid, 0, 3979, "civic01_lan", "sl_concretewall1", 0x00000000);
 tmpobjid = CreateDynamicObject(19379, 1928.191162, -347.064361, 49.608173, 0.000000, 90.000000, 90.000000, -1, -1, -1, 300.00, 300.00); 
@@ -107,7 +113,7 @@ tmpobjid = CreateDynamicObject(11711, 1928.812744, -342.134521, 52.381259, 0.000
 SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFFFFFFF);
 tmpobjid = CreateDynamicObject(19560, 1927.635498, -349.483642, 52.283752, 90.000000, 360.000000, 0.000000, -1, -1, -1, 300.00, 300.00); 
 SetDynamicObjectMaterial(tmpobjid, 0, 11631, "mp_ranchcut", "mpCJ_SPEAKER4", 0x00000000);
-// SetDynamicObjectMaterial(tmpobjid, 1, 11631, "mp_ranchcut", "mpCJ_SPEAKER4", 0x00000000);
+ // SetDynamicObjectMaterial(tmpobjid, 1, 11631, "mp_ranchcut", "mpCJ_SPEAKER4", 0x00000000);
 tmpobjid = CreateDynamicObject(1703, 1924.666503, -353.245086, 49.667179, 0.000000, 0.000000, 90.000000, -1, -1, -1, 300.00, 300.00); 
 SetDynamicObjectMaterial(tmpobjid, 1, 11631, "mp_ranchcut", "mpCJ_SPEAKER4", 0x00000000);
 tmpobjid = CreateDynamicObject(19174, 1927.491699, -358.488586, 51.973892, 0.000000, 0.000000, 180.000000, -1, -1, -1, 300.00, 300.00); 

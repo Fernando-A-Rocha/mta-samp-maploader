@@ -8,6 +8,7 @@
 
     Commands (clientside):
         - /listmaps: lists all maps defined in list.lua inside mapList
+        - /tmats (show materials)
 ]]
 
 local loaded_maps = {}
@@ -245,3 +246,72 @@ function (startedResource)
         unloadTextureStudioMap(mapid)
     end
 end)
+
+--[[
+    Author: Fernando
+    Script: client.lua
+
+    Commands (clientside):
+        - /tdo: test draw objects
+]]
+
+
+local drawing = false
+function togDrawMaterials(cmd)
+    drawing = not drawing
+    outputChatBox("Displaying custom object materials: "..(drawing and "Yes" or "No"), 50,255,50)
+
+    if drawing then
+        addEventHandler( "onClientRender", root, drawObjects)
+    else
+        removeEventHandler( "onClientRender", root, drawObjects)
+    end
+end
+addCommandHandler("tmats", togDrawMaterials, false)
+
+
+function drawObjects()
+
+    local px,py,pz = getElementPosition(localPlayer)
+    local int,dim = getElementInterior(localPlayer), getElementDimension(localPlayer)
+    local lx, ly, lz = getCameraMatrix()
+
+    local data_name = exports.newmodels:getDataNameFromType("object")
+    for k, obj in ipairs(getElementsWithinRange(px,py,pz, 35, "object")) do
+
+        local i,d = getElementInterior(obj), getElementDimension(obj)
+        if d == dim and i == int then
+            local x,y,z = getElementPosition(obj)
+
+            local collision, cx, cy, cz, element = processLineOfSight(lx, ly, lz, x,y,z,
+            false, false, false, false, false, false, false, true, obj)
+
+            if not collision then
+
+                local dx, dy, distance = getScreenFromWorldPosition(x,y,z)
+                if dx and dy then
+                    dy = dy+20
+
+                    local text
+                    local mat_info = getElementData(obj, "material_info") or false
+                    if mat_info then
+
+                        local customID = tonumber(getElementData(obj, data_name))
+                        local model = customID or getElementModel(obj)
+                        text = "ID "..model..(customID and " (custom)" or "").."\n"
+
+                        local temp = ""
+                        for k, mat in pairs(mat_info) do
+                            temp=temp.."["..mat.mat_index.."] "..mat.target_tex_name.." => "..mat.tex_name.."\n"
+                        end
+                        text = text..temp
+                    end
+
+                    if text then
+                        dxDrawText(text, dx, dy, dx, dy, "0xffffa200", 1, "default", "center")
+                    end
+                end
+            end
+        end
+    end
+end
