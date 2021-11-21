@@ -25,6 +25,11 @@ Discord Webhooks in MTA: [mta-discord-webhooks](https://github.com/Fernando-A-Ro
 Add new peds/objects/vehicles in MTA: [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models)
 
 
-# Getting Started
+# Introduction
 
-TODO
+This project uses resources from some of my other projects that `samp_maploader` requires.
+
+## Dependencies
+
+- `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (v1.5.1)
+- `sampobj_reloaded` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (custom)

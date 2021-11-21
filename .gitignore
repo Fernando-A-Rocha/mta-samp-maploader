@@ -1,0 +1,4 @@
+*.html
+\[samp\]/sampobj_reloaded/models/*.dff
+\[samp\]/sampobj_reloaded/models/*.txd
+\[samp\]/sampobj_reloaded/models/*.col

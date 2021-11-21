@@ -1,0 +1,8 @@
+<meta>
+    <!-- DOCUMENTATION: https://github.com/Fernando-A-Rocha/mta-samp-maploader -->
+    <info author="Fernando" name="SAMP Map Loader" description="parses and loads SA-MP Pawn maps" version="1.0" type="script" />
+    <include resource="newmodels" />
+    <include resource="sampobj_reloaded" />
+
+    <script type="server" src="server.lua" />
+</meta>
