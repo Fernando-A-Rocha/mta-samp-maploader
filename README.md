@@ -32,6 +32,19 @@ This project uses resources from some of my other projects that `samp_maploader`
 - `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (v1.6.0 edited)
 - `sampobj_reloaded` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (edited)
 
-# Install
+It's important to start these 2 resources before starting `samp_maploader` in that order.
 
-TODO
+# Structure
+
+`samp_maploader` files and folders:
+- `maps`: SA-MP Pawn map files to load
+- `models`: models used by maps to load
+- `list.lua`: list of maps to load
+- `client.lua`: map loading functions
+- `server.lua`: map parsing & sending to client for loading
+- `files`: shader stuff
+- `matlist.lua` SA material names and other dff/txd info
+
+# Tutorial
+
+How to add your own SA-MP maps & load them: TODO
