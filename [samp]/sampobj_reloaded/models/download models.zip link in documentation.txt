@@ -1,1 +1,3 @@
-Download link in README.md, extract all dff,txd,col files here
+Download link: https://github.com/Fernando-A-Rocha/mta-add-models#includes
+
+Extract all dff,txd,col files here
