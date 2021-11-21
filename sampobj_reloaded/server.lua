@@ -4,9 +4,6 @@
 	server.lua
 
 	Adds all SA-MP objects to the game using the 'newmodels' library    -  Inspired by my original sampobj: https://github.com/Fernando-A-Rocha/MTA-SAMP-OBJ
-
-	Commands:
-		- /rsampobj: Spawns a random SA-MP object at your position
 ]]
 
 -- This causes a small freeze on resource start, but it's fine because you only need to start the resource once on server startup :)
