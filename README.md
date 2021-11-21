@@ -75,7 +75,11 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 5. Define **maps to load** in [samp_maploader/list.lua](samp_maploader/list.lua) inside `mapList`
     - Read the comments to understand how to define your map
 
-6. Use `start samp_maploader` to initiate the resource or `restart samp_maploader` after changing it
+6. Use `start samp_maploader` to initiate the resource
+
+7. ‼️ **Important**: If needed, after restarting `newmodels` you will need to restart `sampobj_reloaded` then `samp_maploader` after.
+
+8. ‼️ **Important**: If you are in-game when restarting, you must **wait** a bit before restarting `samp_maploader` as it requires your client to have received the SA-MP objects mod list which happens a few seconds after `sampobj_reloaded` starts.
 
 # Generating Collision Files
 

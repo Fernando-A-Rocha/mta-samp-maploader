@@ -88,7 +88,7 @@ function getTextureNameFromIndex(object,mat_index)
     end
     return tex_name
 end
-function getTextureFromName(model_id,tex_name)
+function getTextureFromName(model_id,tex_name,override_id)
     
     if not tonumber(model_id) then return end
     model_id = tonumber(model_id)
@@ -104,8 +104,15 @@ function getTextureFromName(model_id,tex_name)
             end
         end
         if not foundModelID then
-            outputDebugString("Failed to find allocated ID for Custom ID "..model_id, 1)
+            local allocated_id, reason = exports.newmodels:forceAllocate(model_id)
+            if allocated_id then
+                getTextureFromName(model_id,tex_name,allocated_id)
+            else
+                outputDebugString("getTextureFromName => Failed to allocate mod ID "..model_id..": "..reason, 1)
+            end
             return
+        elseif override_id then
+            model_id = override_id
         else
             model_id = foundModelID
         end
