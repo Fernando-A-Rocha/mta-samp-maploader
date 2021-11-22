@@ -48,7 +48,7 @@ It's important to start these 2 resources before starting `samp_maploader` in th
 
 ## Already using any of the dependencies?
 
-If your server already has `newmodels` & `sampobj_reloaded` and want to have `samp_maploader`, you shouldn't need to re-download those 2 resources if you have the correct versions. I made the following edits to them:
+If your server already has `newmodels` & `sampobj_reloaded` and you want to install `samp_maploader`, you shouldn't need to re-download those 2 resources if you have the [correct versions](#dependencies). I made the following edits to them:
 - Removed the test commands from `newmodels`
 - Disabled debug messages in [newmodels/_config.lua](/newmodels/_config.lua)
 - Removed all predefined mods in [newmodels/mod_list.lua](/newmodels/mod_list.lua), [newmodels/meta.xml](/newmodels/meta.xml) and 'models' folder (now deleted)
