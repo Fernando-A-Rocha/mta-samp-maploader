@@ -43,10 +43,11 @@
      <file src="files/shader.fx"/>
      <file src="files/mat_color.fx"/>
 
-   <script type="client" src="matlist.lua"/>
+   <script type="client" src="async.lua"/>
+   <script type="client" src="utility.lua"/>
    <script type="shared" src="functions_shared.lua"/>
    <script type="client" src="functions_client.lua"/>
-   <script type="shared" src="list.lua"/>
+   <script type="shared" src="map_list.lua"/>
    <script type="client" src="client.lua"/>
    <script type="server" src="server.lua"/>
 </meta>

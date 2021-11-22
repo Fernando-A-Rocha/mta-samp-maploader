@@ -88,47 +88,31 @@ function getTextureNameFromIndex(object,mat_index)
     end
     return tex_name
 end
-function getTextureFromName(model_id,tex_name,override_id,debug)
+function getTextureFromName(model_id,tex_name)
     
     if not tonumber(model_id) then return end
     model_id = tonumber(model_id)
 
-    if exports.newmodels:isCustomModID(model_id) then -- we need to obtain the id allocated by MTA
-        if override_id then
-            model_id = override_id
-        else
-            local data_name = exports.newmodels:getDataNameFromType("object")
-            local foundModelID
-            for k,obj in ipairs(getElementsByType("object")) do
-                local id = tonumber(getElementData(obj, data_name))
-                if id and id == model_id then
-                    foundModelID = id
-                    break
-                end
-            end
-            if not foundModelID then
-                local allocated_id, reason = exports.newmodels:forceAllocate(model_id)
-                if not allocated_id then
-                    return outputDebugString("getTextureFromName => Failed to allocate mod ID "..model_id..": "..reason, 1)
-                end
-                return getTextureFromName(model_id,tex_name,allocated_id)
-            else
-                model_id = foundModelID
-            end
+    if exports.newmodels:isCustomModID(model_id) then
+        -- we need to obtain the id allocated by MTA
+        
+        local allocated_id, reason = exports.newmodels:forceAllocate(model_id)
+        if not allocated_id then
+            return outputDebugString("getTextureFromName => Failed to allocate mod ID "..model_id..": "..reason, 1)
         end
+
+        for name,texture in pairs(engineGetModelTextures(allocated_id,tex_name)) do
+            return texture, name
+        end
+
     elseif not isDefaultObject(model_id) then
+        outputDebugString("Unknown model ID: "..model_id, 1)
         -- prevents MTA error: engineGetModelTextures [Invalid model ID]
         return
-    end
-    local txds = engineGetModelTextures(model_id,tex_name)
-
-    if debug then
-        print(model_id,tex_name)
-        iprint(txds)
-    end
-
-    for name,texture in pairs(txds) do
-        return texture, name
+    else
+        for name,texture in pairs(engineGetModelTextures(model_id,tex_name)) do
+            return texture, name
+        end
     end
 end
 
@@ -146,7 +130,7 @@ function getColor(color)
     end 
 end
 
-function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Exported]
+function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Exported - Client]
     --MTA doesn't need lib_name (.txd file) to find texture by name
     if model_id ~= -1 then -- dealing replaced mat objects
         local target_tex_name = getTextureNameFromIndex(object,mat_index)
@@ -156,15 +140,17 @@ function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Export
             local matShader = dxCreateShader( "files/shader.fx" )
             local matTexture = getTextureFromName(model_id,tex_name)
             if matTexture ~= nil then
+                
                 -- apply shader attributes
                 --local a,r,g,b = getColor(color)
                 --a = a == 0 and 1 or a
                 --alpha disabled due to bug
-                dxSetShaderValue ( matShader, "gColor", 1,1,1,1);
-                dxSetShaderValue ( matShader, "gTexture", matTexture);
+                -- dxSetShaderValue ( matShader, "gColor", 1,1,1,1);
+                -- dxSetShaderValue ( matShader, "gTexture", matTexture);
+                
+                dxSetShaderValue ( matShader, "theTex", matTexture);
             else
                 destroyElement(matShader)
-                getTextureFromName(model_id,tex_name,nil,true)
                 outputDebugString(string.format( "Invalid texture/model on model_id: %s and tex_name: %s", tostring(model_id),tostring(tex_name)), 2)
                 return false
             end

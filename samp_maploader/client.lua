@@ -7,12 +7,39 @@
 		Loads SA-MP maps in TextureStudio format (Pawn code)
 
     Commands (clientside):
-        - /listmaps: lists all maps defined in list.lua inside mapList
+        - /gotomap: teleports you to a certain map's defined TP position
+        - /listmaps: lists all maps defined in map_list.lua inside mapList
         - /tmats (show materials)
 ]]
 
 local loaded_maps = {}
 local last_object
+
+function gotoMapCommand(cmd, map_id)
+    if not tonumber(map_id) then
+        outputChatBox("SYNTAX: /"..cmd.." [Map ID from /listmaps]", 255,194,14)
+    end
+    map_id = tonumber(map_id)
+
+    for k, map in pairs(mapList) do
+        if map.id == map_id then
+
+            if not loaded_maps[map.id] then
+                outputChatBox("Map ID "..map_id.." is currently not loaded", 255,0,0)
+                return
+            end
+
+            setElementPosition(localPlayer, unpack(map.pos))
+            setElementDimension(localPlayer, map.dim)
+            setElementInterior(localPlayer, map.int)
+            
+            return outputChatBox("Teleported to map ID "..map_id.." named '"..map.name.."'", 0,255,0)
+        end
+    end
+    
+    outputChatBox("Map ID "..map_id.." not found, check /listmaps", 255,0,0)
+end
+addCommandHandler("gotomap", gotoMapCommand, false)
 
 function listMaps(cmd)
     for k, map in pairs(mapList) do
@@ -169,11 +196,12 @@ function unloadTextureStudioMap(mapid)
     end
     -- end)
 
-    outputDebugString("Map '"..mapname.."' (ID "..mapid..") unloaded, stats:")
-    outputDebugString(counts.materials.."/"..icounts.materials.." materials", 0,255,255,255)
-    outputDebugString(counts.models.."/"..icounts.models.." models", 0,255,255,255)
-    outputDebugString(counts.objects.."/"..icounts.objects.." objects", 0,255,255,255)
-    outputDebugString(counts.removals.."/"..icounts.removals.." removals", 0,255,255,255)
+    outputDebugString("Map '"..mapname.."' (ID "..mapid..") unloaded")
+    -- outputDebugString("Map '"..mapname.."' (ID "..mapid..") unloaded, stats:")
+    -- outputDebugString(counts.materials.."/"..icounts.materials.." materials", 0,255,255,255)
+    -- outputDebugString(counts.models.."/"..icounts.models.." models", 0,255,255,255)
+    -- outputDebugString(counts.objects.."/"..icounts.objects.." objects", 0,255,255,255)
+    -- outputDebugString(counts.removals.."/"..icounts.removals.." removals", 0,255,255,255)
 
     loaded_maps[mapid] = nil
     return true
@@ -237,6 +265,10 @@ end
 
 addEventHandler( "onClientResourceStart", resourceRoot, 
 function (startedResource)
+
+    -- Async:setDebug(true)
+    -- Async:setPriority("low")
+
     requestMapsWhenReady()
 end)
 

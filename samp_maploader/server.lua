@@ -7,7 +7,6 @@
 		Parses SA-MP maps in TextureStudio format (Pawn code) and sends them to client for loading
 
 	Commands (serverside):
-		- /gotomap: teleports you to a certain map's defined TP position
 		- /loadmap: loads a map by ID for every online player
 		- /unloadmap: unloads a map by ID for every online player
 ]]
@@ -16,31 +15,6 @@ local startTickCount = getTickCount()
 local SERVER_READY = false
 
 local parsed_maps = {}
-
-function gotoMapCommand(thePlayer, cmd, map_id)
-	if not SERVER_READY then
-		return outputChatBox("Server not ready: still parsing maps.", thePlayer,255,0,0)
-	end
-    if not tonumber(map_id) then
-        outputChatBox("SYNTAX: /"..cmd.." [Map ID from /listmaps]", thePlayer,255,194,14)
-    end
-    map_id = tonumber(map_id)
-
-    for k, map in pairs(mapList) do
-        if map.id == map_id then
-
-            setElementPosition(thePlayer, unpack(map.pos))
-            setElementDimension(thePlayer, map.dim)
-            setElementInterior(thePlayer, map.int)
-            
-            return outputChatBox("Teleported to map ID "..map_id.." named '"..map.name.."'", thePlayer,0,255,0)
-        end
-    end
-    
-    outputChatBox("Map ID "..map_id.." not found, check /listmaps", 255,0,0)
-end
-addCommandHandler("gotomap", gotoMapCommand, false)
-
 
 function unloadMapCmd(thePlayer, cmd, map_id)
 	if not SERVER_READY then

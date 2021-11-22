@@ -1,4 +1,6 @@
 --[[
+	map_list.lua
+
 	List of maps to load on startup
 	Required settings for each map:
 	

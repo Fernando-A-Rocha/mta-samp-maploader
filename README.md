@@ -69,8 +69,8 @@ If your server already has `newmodels` & `sampobj_reloaded` and you want to inst
 - `list.lua`: list of maps to load
 - `client.lua`: map loading functions
 - `server.lua`: map parsing & sending to client for loading
-- `files`: shader stuff
-- `matlist.lua` SA material names and other dff/txd info
+- `utility.lua` SA material names and other dff/txd info
+- `files`: shader files
 
 # Tutorial
 
@@ -92,7 +92,7 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
     - This is required if your map has any `added objects` using `AddSimpleModel` 
     - This allows the resource to send these files to the client when they join so the models can be loaded when requested in a map file
 
-5. Define **maps to load** in [samp_maploader/list.lua](samp_maploader/list.lua) inside `mapList`
+5. Define **maps to load** in [samp_maploader/map_list.lua](samp_maploader/map_list.lua) inside `mapList`
     - Read the comments to understand how to define your map
 
 6. Use `start samp_maploader` to initiate the resource
