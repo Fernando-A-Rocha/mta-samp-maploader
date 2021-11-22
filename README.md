@@ -101,6 +101,13 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 
 8. ‼️ **Important**: If you are in-game when restarting, you must **wait** a bit before restarting `samp_maploader` as it requires your client to have received the SA-MP objects mod list which happens a few seconds after `sampobj_reloaded` starts.
 
+# Important Info
+
+- MTA currently limits the amount of objects you can stream within a small radius, it's very noticeable when in SA-MP interiors with a lot of objects
+- Transparent materials currently don't work when applied with SetObjectMaterial **(todo)** [issue 2](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/2)
+- Material color currently has no effect when applied with SetObjectMaterial **(todo)** [issue 3](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/3)
+- setObjectMaterialText is currently not supported **(todo)** [issue 4](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/4)
+
 # Generating Collision Files
 
 There's a tool to generate a `.col` file from a given `.dff` model. Check out the tutorial [here](TUTORIAL_COL.md).
