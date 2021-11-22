@@ -31,7 +31,7 @@ mapList = {
 	},
     {
     	id = 3,
-		autoload = false,
+		autoload = true,
 		
     	name = "Gun Shop", path = "maps/gunshop.pwn",
     	int = 1, dim = 4, pos = { -729.7607421875, 1449.6337890625, -89.869453430176 },

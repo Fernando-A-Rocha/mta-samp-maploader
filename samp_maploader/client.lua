@@ -170,10 +170,10 @@ function unloadTextureStudioMap(mapid)
     -- end)
 
     outputDebugString("Map '"..mapname.."' (ID "..mapid..") unloaded, stats:")
-    outputDebugString("=> "..counts.materials.."/"..icounts.materials.." materials cleaned", 0,255,255,255)
-    outputDebugString("=> "..counts.models.."/"..icounts.models.." models cleaned", 0,255,255,255)
-    outputDebugString("=> "..counts.objects.."/"..icounts.objects.." objects cleaned", 0,255,255,255)
-    outputDebugString("=> "..counts.removals.."/"..icounts.removals.." removals cleaned", 0,255,255,255)
+    outputDebugString(counts.materials.."/"..icounts.materials.." materials", 0,255,255,255)
+    outputDebugString(counts.models.."/"..icounts.models.." models", 0,255,255,255)
+    outputDebugString(counts.objects.."/"..icounts.objects.." objects", 0,255,255,255)
+    outputDebugString(counts.removals.."/"..icounts.removals.." removals", 0,255,255,255)
 
     loaded_maps[mapid] = nil
     return true
