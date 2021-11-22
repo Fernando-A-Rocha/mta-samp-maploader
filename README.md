@@ -59,10 +59,7 @@ If your server already has `newmodels` & `sampobj_reloaded` and you want to inst
 - Get the latest release: [here](https://github.com/Fernando-A-Rocha/mta-samp-maploader/releases/latest)
 - Download the source code Zip and extract it
 - Place the 3 folders in your server's resources folder
-- Execute the following commands in server console (in order):
-    - `start newmodels`
-    - `start sampobj_reloaded`
-    - `start samp_maploader`
+- Execute command `start samp_maploader` in server console: it will start the dependencies before starting the main resource
 
 ## Structure
 
