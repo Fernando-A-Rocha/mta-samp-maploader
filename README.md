@@ -42,6 +42,7 @@ This project uses resources from some of my other projects that `samp_maploader`
 
 - `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (v1.6.0 edited)
 - `sampobj_reloaded` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (edited)
+  - 👉 [Download](https://github.com/Fernando-A-Rocha/mta-add-models#includes) `models.zip` containing all dff/txd/col files required
 
 It's important to start these 2 resources before starting `samp_maploader` in that order.
 
