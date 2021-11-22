@@ -31,7 +31,7 @@ function createMapObject(model_id,x,y,z,rx,ry,rz,distance)
     end
 
     if tonumber(distance) and distance ~= 300 then
-        lod = createObject(1337,x,y,z,rx,ry,rz,true)
+        -- lod = createObject(1337,x,y,z,rx,ry,rz,true)
         -- setLowLODElement ( obj, lod )
         -- engineSetModelLODDistance ( model_id, distance )
     end
