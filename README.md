@@ -2,7 +2,6 @@
 
 # About
 
-
 **mta-samp-maploader** is a MTA resource that reads SA-MP map code in Pawn and loads the map objects and other elements in MTA.
 
 MTA forum topic: *Coming Soon*
@@ -24,7 +23,20 @@ Discord Webhooks in MTA: [mta-discord-webhooks](https://github.com/Fernando-A-Ro
 
 Add new peds/objects/vehicles in MTA: [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models)
 
-# Dependencies
+# Getting Started
+
+## Prerequisites
+
+You'll need to update your MTA Client to a certain nightly (experimental) [version](https://buildinfo.mtasa.com/):
+- Get the **Windows nightly installer** - *r21026* from [nightly.mtasa.com](https://nightly.mtasa.com/)
+- Update your current MTA installation, type `ver` in F8 in-game to verifiy: `Multi Theft Auto v1.5.9-release-21026`
+
+You'll also need to get a specific MTA Server nightly (experimental) [version](https://buildinfo.mtasa.com/):
+- If updating a server, you need to install it on a separate folder, then move all your settings & resources to it
+- Get the **Windows/Linux server** - *r21026* from [nightly.mtasa.com](https://nightly.mtasa.com/)
+- To check the server's version type `ver` on the console: `MTA:SA Server v1.5.9-release-21026`
+
+## Dependencies
 
 This project uses resources from some of my other projects that `samp_maploader` requires.
 
@@ -33,15 +45,25 @@ This project uses resources from some of my other projects that `samp_maploader`
 
 It's important to start these 2 resources before starting `samp_maploader` in that order.
 
-# Tip
+## Already using any of the dependencies?
 
-If you're already using `newmodels` & `sampobj_reloaded` in your server and want to have `samp_maploader`, you shouldn't need to re-download those 2 resources. I simply made the following edits to them:
+If your server already has `newmodels` & `sampobj_reloaded` and want to have `samp_maploader`, you shouldn't need to re-download those 2 resources if you have the correct versions. I made the following edits to them:
 - Removed the test commands from `newmodels`
 - Disabled debug messages in [newmodels/_config.lua](/newmodels/_config.lua)
 - Removed all predefined mods in [newmodels/mod_list.lua](/newmodels/mod_list.lua), [newmodels/meta.xml](/newmodels/meta.xml) and 'models' folder (now deleted)
 - Removed the test command from `sampobj_reloaded`
 
-# Structure
+## Installing
+
+- Get the latest release: [here](https://github.com/Fernando-A-Rocha/mta-samp-maploader/releases/latest)
+- Download the source code Zip and extract it
+- Place the 3 folders in your server's resources folder
+- Execute the following commands in server console (in order):
+    - `start newmodels`
+    - `start sampobj_reloaded`
+    - `start samp_maploader`
+
+## Structure
 
 `samp_maploader` files and folders:
 - `maps`: SA-MP Pawn map files to load
