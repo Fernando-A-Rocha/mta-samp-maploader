@@ -27,6 +27,7 @@
       <file src="maps/mansion.pwn"/>
       <file src="maps/office.pwn"/>
       <file src="maps/gunshop.pwn"/>
+      <file src="maps/prison.pwn"/>
 
 
    <!-- exported functions -->

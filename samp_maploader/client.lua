@@ -32,6 +32,7 @@ function gotoMapCommand(cmd, map_id)
             setElementPosition(localPlayer, unpack(map.pos))
             setElementDimension(localPlayer, map.dim)
             setElementInterior(localPlayer, map.int)
+            setCameraInterior(map.int)
             
             return outputChatBox("Teleported to map ID "..map_id.." named '"..map.name.."'", 0,255,0)
         end
