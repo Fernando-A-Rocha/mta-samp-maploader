@@ -17,13 +17,6 @@ local SERVER_READY = false
 
 local parsed_maps = {}
 
-addCommandHandler("bb", function(player)
-	setElementPosition(player, 5,5,3.5)
-	setElementDimension(player, 0)
-	setElementInterior(player, 0)
-	setCameraInterior(player, 0)
-end, false, false)
-
 function unloadMapCmd(thePlayer, cmd, map_id)
 	if not SERVER_READY then
 		return outputChatBox("Server not ready: still parsing maps.", thePlayer,255,0,0)

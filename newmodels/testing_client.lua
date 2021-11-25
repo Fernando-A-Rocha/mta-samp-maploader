@@ -162,9 +162,9 @@ function createTestWindow(version, title, data)
 				if button == "left" then
 					local row,col = guiGridListGetSelectedItem(source)
 					if row ~= -1 then
-						local id,allocted_id,pos = guiGridListGetItemText(source, row, cols0.id), guiGridListGetItemText(source, row, cols0.aid), guiGridListGetItemText(source, row, cols0.pos)
+						local id,allocated_id,pos = guiGridListGetItemText(source, row, cols0.id), guiGridListGetItemText(source, row, cols0.aid), guiGridListGetItemText(source, row, cols0.pos)
 						if id then
-							local text = elementType.." ID "..id..(allocted_id~="-" and " [Allocated ID "..allocted_id.."]" or "").." at: "..pos
+							local text = elementType.." ID "..id..(allocated_id~="-" and " [Allocated ID "..allocated_id.."]" or "").." at: "..pos
 							if setClipboard(text) then
 								outputChatBox("Copied to clipboard: "..text,0,255,0)
 							end
@@ -183,9 +183,9 @@ function createTestWindow(version, title, data)
 				if id then
 					guiGridListSetItemText(grid, row, cols0.id, id, false, true)
 					guiGridListSetItemColor(grid, row, cols0.id, 0,255,0)
-					local allocted_id = allocated_ids[id]
+					local allocated_id = allocated_ids[id]
 					if allocated_id then
-						guiGridListSetItemText(grid, row, cols0.aid, allocted_id, false, true)
+						guiGridListSetItemText(grid, row, cols0.aid, allocated_id, false, true)
 					end
 				else
 					guiGridListSetItemText(grid, row, cols0.id, getElementModel(element), false, true)
@@ -263,9 +263,9 @@ function outputStreamedInElements(cmd)
 			local id = tonumber(getElementData(element, dataName))
 			if id then
 				local extra = ""
-				local allocted_id = allocated_ids[id]
+				local allocated_id = allocated_ids[id]
 				if allocated_id then
-					extra = " allocated to ID "..alocated_id
+					extra = " allocated to ID "..allocated_id
 				end
 				local x,y,z = getElementPosition(element)
 				local int,dim = getElementInterior(element), getElementDimension(element)

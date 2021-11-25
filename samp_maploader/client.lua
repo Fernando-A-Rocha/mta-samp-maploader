@@ -15,6 +15,14 @@
 local loaded_maps = {}
 local last_object
 
+
+addCommandHandler("bb", function(cmd)
+    setElementPosition(localPlayer, 5,5,3.5)
+    setElementDimension(localPlayer, 0)
+    setElementInterior(localPlayer, 0)
+    setCameraInterior(0)
+end, false)
+
 function gotoMapCommand(cmd, map_id)
     if not tonumber(map_id) then
         outputChatBox("SYNTAX: /"..cmd.." [Map ID from /listmaps]", 255,194,14)

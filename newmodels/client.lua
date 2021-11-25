@@ -271,51 +271,43 @@ function ()
 	prevent_object_bug[source] = nil
 end)
 
-function freeElementCustomMod(id, trackElement)
+function freeElementCustomMod(id)
 	local allocated_id = allocated_ids[id]
 	if not allocated_id then
 		return
 	end
 
-	-- trackElement = the script will only free that ID of the element is no longer streamed in
-	--  OR not tracking any element (aka on stop)
-	local et, dataName
-	if isElement(trackElement) then
-		et = getElementType(trackElement)
-		dataName = dataNames[et]
-	end
 
+	local test1, test2
+	-- try to find an element to track
+	local isCustom, mod, et2 = isCustomModID(id)
+	local foundElement
+	if et2 then
+		for k, element in ipairs(getElementsByType(et2, getRootElement(), true)) do
+			local id2 = tonumber(getElementData(element, dataNames[et2]))
+			if id2 and id2 == id then
 
-	local test1 = ( isElement(trackElement) and not isElementStreamedIn(trackElement) )
-	local test2 = ( isElement(trackElement) and isElementStreamedIn(trackElement) and ((not getElementData(trackElement, dataName)) or getElementData(trackElement, dataName) ~= id) )
-	local test3 = ( not isElement(trackElement) )
-	if test3 then
-		-- try to find an element to track
-		local isCustom, mod, et2 = isCustomModID(id)
-		local foundElement
-		if et2 then
-			for k, element in ipairs(getElementsByType(et2, getRootElement(), true)) do
-				local id2 = tonumber(getElementData(element, dataNames[et2]))
-				if id2 and id2 == id then
+				local et = getElementType(element)
+				if et == "object" then
+					prevent_object_bug[element] = setTimer(function()
+						prevent_object_bug[element] = nil
+					end, adelay+3000, 1)
+				end
+				if not foundElement then
 					foundElement = element
-					break
 				end
 			end
 		end
 
 		if isElement(foundElement) then
-			print("Found element to track in freeElementCustomMod("..id..")", foundElement)
-			return freeElementCustomMod(id, foundElement)
+			test1 = ( not isElementStreamedIn(foundElement) )
+			test2 = ( isElementStreamedIn(foundElement) and ((not getElementData(foundElement, dataName)) or getElementData(foundElement, dataName) ~= id) )
 		end
 	end
 
 
-	if test1 or test2 or test3 then
+	if (not isElement(foundElement)) or (isElement(foundElement) and (test1 or test2)) then
 		
-		if et == "object" then
-			prevent_object_bug[trackElement] = setTimer(function() prevent_object_bug[trackElement] = nil end, adelay+3000, 1)
-		end
-
 		if isTimer(atimers[id]) then killTimer(atimers[id]) end
 		atimers[id] = setTimer(function()
 
@@ -417,7 +409,7 @@ function updateElementOnDataChange(source, theKey, oldValue, newValue)
 			if not old_allocated_id then return end -- was not allocated
 
 			if not hasOtherElementsWithModel(source, old_id) then
-				freeElementCustomMod(old_id, source)
+				freeElementCustomMod(old_id)
 			else
 				outputDebugString("["..(eventName or "?").."] Not freeing allocated ID "..old_allocated_id.." for new "..et.." model ID "..old_id,3)
 				return
@@ -504,7 +496,7 @@ function updateStreamedOutElement(source)
 		showElementCoords(source)
 
 		if not hasOtherElementsWithModel(source, id) then
-			freeElementCustomMod(id, source)
+			freeElementCustomMod(id)
 		else
 			outputDebugString("["..(eventName or "?").."] Not freeing allocated ID "..allocated_id.." for new "..et.." model ID "..id,3)
 			return
@@ -553,10 +545,10 @@ function updateModelChangedElement(source, oldModel, newModel)
 
 		if isElementStreamedIn(source) then
 
-			if et == "object" and prevent_object_bug[source] then
+			-- if et == "object" and prevent_object_bug[source] then
 				-- print("Get fucked stupid bug")
-				return
-			end
+			-- 	return
+			-- end
 		
 			showElementCoords(source)
 
@@ -565,7 +557,7 @@ function updateModelChangedElement(source, oldModel, newModel)
 
 			if old_id and isCustomModID(old_id)
 			and not hasOtherElementsWithModel(source, old_id) then
-				freeElementCustomMod(old_id, source)
+				freeElementCustomMod(old_id)
 			end
         end
 	end
