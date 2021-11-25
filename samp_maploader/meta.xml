@@ -2,9 +2,6 @@
    <!-- DOCUMENTATION: https://github.com/Fernando-A-Rocha/mta-samp-maploader#readme -->
    <info author="Fernando" name="SAMP Map Loader" description="parses and loads SA-MP Pawn maps" version="1.0" type="script" />
 
-   <!-- https://nightly.mtasa.com -->
-   <min_mta_version client="1.5.9-9.21026.0" server="1.5.9-9.21026.0"></min_mta_version>
-
    <!-- Required dependency -->
    <include resource="sampobj_reloaded" />
    
@@ -27,7 +24,8 @@
       <file src="maps/mansion.pwn"/>
       <file src="maps/office.pwn"/>
       <file src="maps/gunshop.pwn"/>
-      <file src="maps/prison.pwn"/>
+      <file src="maps/prison1.pwn"/>
+      <file src="maps/prison2.pwn"/>
 
 
    <!-- exported functions -->
