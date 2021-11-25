@@ -1,7 +1,7 @@
  <meta>
    <!-- DOCUMENTATION: https://github.com/Fernando-A-Rocha/mta-samp-maploader#readme -->
    <info author="Fernando" name="SAMP Map Loader" description="parses and loads SA-MP Pawn maps" version="1.0" type="script" />
-
+   <min_mta_version client="1.5.7-9.20416"/>
    <!-- Required dependency -->
    <include resource="sampobj_reloaded" />
    
