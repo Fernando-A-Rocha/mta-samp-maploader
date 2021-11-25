@@ -249,18 +249,10 @@ end
 addEvent("samp_maps:loadAll", true)
 addEventHandler("samp_maps:loadAll", resourceRoot, clientStartupLoad)
 
-local attempts = 0
 function requestMapsWhenReady()
-    if exports.newmodels:isClientReady() then
-        triggerLatentServerEvent("samp_maps:request", resourceRoot)
-    else
-        if attempts == 10 then
-            outputChatBox("Not loading SA-MP maps: 'newmodels' didn't send mod list to "..getPlayerName(localPlayer), 255,0,0)
-            return
-        end
-        attempts = attempts + 1
-        setTimer(requestMapsWhenReady, 1000, 1)
-    end
+    print("Detected mod list received...")
+    removeEventHandler("newmodels:onMapListReceived", localPlayer, requestMapsWhenReady)
+    triggerLatentServerEvent("samp_maps:request", resourceRoot)
 end
 
 addEventHandler( "onClientResourceStart", resourceRoot, 
@@ -269,7 +261,11 @@ function (startedResource)
     -- Async:setDebug(true)
     -- Async:setPriority("low")
 
-    requestMapsWhenReady()
+    if exports.newmodels:isClientReady() then
+        triggerLatentServerEvent("samp_maps:request", resourceRoot)
+    else
+        addEventHandler("newmodels:onMapListReceived", localPlayer, requestMapsWhenReady)
+    end
 end)
 
 addEventHandler( "onClientResourceStop", resourceRoot, 
