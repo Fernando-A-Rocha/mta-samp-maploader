@@ -5,8 +5,7 @@
    <!-- https://nightly.mtasa.com -->
    <min_mta_version client="1.5.9-9.21026.0" server="1.5.9-9.21026.0"></min_mta_version>
 
-   <!-- Required dependencies -->
-   <include resource="newmodels" />
+   <!-- Required dependency -->
    <include resource="sampobj_reloaded" />
    
    <!-- SA-MP Map Models -->

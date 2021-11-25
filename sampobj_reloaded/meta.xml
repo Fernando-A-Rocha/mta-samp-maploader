@@ -1,6 +1,8 @@
 <meta>
     <!-- Custom version used by samp_maploader -->
     <info author="Fernando" name="SAMP Objects Reloaded" description="implements mta-add-models library functions to add all SA-MP objects" version="0.0" type="script" />
+   
+    <!-- Required dependency -->
     <include resource="newmodels" />
 
     <script type="server" src="server.lua" />

@@ -255,7 +255,7 @@ function requestMapsWhenReady()
         triggerLatentServerEvent("samp_maps:request", resourceRoot)
     else
         if attempts == 10 then
-            outputChatBox("Not loading SA-MP maps: 'newmodels' didn't send mod list to client", 255,0,0)
+            outputChatBox("Not loading SA-MP maps: 'newmodels' didn't send mod list to "..getPlayerName(localPlayer), 255,0,0)
             return
         end
         attempts = attempts + 1
