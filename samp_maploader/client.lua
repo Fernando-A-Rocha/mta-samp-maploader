@@ -236,8 +236,9 @@ end
 addEvent("samp_maps:loadMap", true)
 addEventHandler("samp_maps:loadMap", resourceRoot, doLoadTextureStudioMap)
 
-function clientStartupLoad(parsed_maps)
+local toLoad
 
+function loadAllMaps(parsed_maps)
     for id, parsed in pairs(parsed_maps) do
 
         local int,dim
@@ -254,14 +255,69 @@ function clientStartupLoad(parsed_maps)
             outputDebugString("(startup) Failed to load map ID "..id..", reason: "..reason)
         end
     end
+    return true
+end
+
+function loadMapsWhenReady()
+
+    print("loadMapsWhenReady: Detected mod list received...")
+    removeEventHandler("newmodels:onMapListReceived", localPlayer, loadMapsWhenReady)
+    
+    if not toLoad then
+        print("No maps waiting to load ???")
+        return
+    end
+    if loadAllMaps(toLoad) then
+        toLoad = nil
+    end
+end
+
+function clientStartupLoad(parsed_maps, check_models)
+
+    if check_models then
+        print("Maps contain custom models, checking if received...")
+
+        local added_ids = {}
+        for id, parsed in pairs(parsed_maps) do
+            for k,v in pairs(parsed) do
+                if v.f == "model" then
+                    local baseid, newid, dffname, txdname = unpack(v.variables)
+                    if newid then
+                        added_ids[newid] = true
+                    end
+                end
+            end
+        end
+
+        for id,_ in pairs(added_ids) do
+            if not exports.newmodels:isCustomModID(id) then
+                print("Not all mods received yet, waiting..")
+                toLoad = parsed_maps
+                addEventHandler("newmodels:onMapListReceived", localPlayer, loadMapsWhenReady)
+                return
+            end
+        end
+
+        print("All added mods already received, loading maps...")
+        loadAllMaps(parsed_maps)
+    else
+        print("No added custom models, loading maps...")
+        loadAllMaps(parsed_maps)
+    end
 end
 addEvent("samp_maps:loadAll", true)
 addEventHandler("samp_maps:loadAll", resourceRoot, clientStartupLoad)
 
+function requestMaps()
+    print("Requesting all maps...")
+    triggerServerEvent("samp_maps:request", resourceRoot)
+end
+
 function requestMapsWhenReady()
-    print("Detected mod list received...")
+    print("requestMapsWhenReady: Detected mod list received...")
     removeEventHandler("newmodels:onMapListReceived", localPlayer, requestMapsWhenReady)
-    triggerLatentServerEvent("samp_maps:request", resourceRoot)
+
+    requestMaps()
 end
 
 addEventHandler( "onClientResourceStart", resourceRoot, 
@@ -271,7 +327,7 @@ function (startedResource)
     -- Async:setPriority("low")
 
     if exports.newmodels:isClientReady() then
-        triggerLatentServerEvent("samp_maps:request", resourceRoot)
+        requestMaps()
     else
         addEventHandler("newmodels:onMapListReceived", localPlayer, requestMapsWhenReady)
     end

@@ -131,6 +131,8 @@ function getColor(color)
 end
 
 function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Exported - Client]
+    -- if true then return true end--disabled (testing)
+
     --MTA doesn't need lib_name (.txd file) to find texture by name
     if model_id ~= -1 then -- dealing replaced mat objects
         local target_tex_name = getTextureNameFromIndex(object,mat_index)

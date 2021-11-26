@@ -1,7 +1,8 @@
  <meta>
    <!-- DOCUMENTATION: https://github.com/Fernando-A-Rocha/mta-samp-maploader#readme -->
    <info author="Fernando" name="SAMP Map Loader" description="parses and loads SA-MP Pawn maps" version="1.0" type="script" />
-   <min_mta_version client="1.5.7-9.20416"/>
+  <min_mta_version client="1.5.9-9.21026.0" server="1.5.9-9.21026.0"></min_mta_version>
+  
    <!-- Required dependency -->
    <include resource="sampobj_reloaded" />
    
@@ -32,8 +33,8 @@
 
      <!-- client -->
      <export function="setObjectMaterial" type="client"/>
-     <!-- shared -->
-     <export function="parseTextureStudioMap" type="shared"/>
+     <!-- server -->
+     <export function="parseTextureStudioMap" type="server"/>
 
 
    <!-- shaders -->
@@ -45,6 +46,7 @@
    <script type="client" src="utility.lua"/>
    <script type="shared" src="functions_shared.lua"/>
    <script type="client" src="functions_client.lua"/>
+   <script type="server" src="functions_server.lua"/>
    <script type="shared" src="map_list.lua"/>
    <script type="client" src="client.lua"/>
    <script type="server" src="server.lua"/>

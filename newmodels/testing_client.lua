@@ -153,8 +153,8 @@ function createTestWindow(version, title, data)
 			local ww,hh = guiGetSize(tab, false)
 			local grid = guiCreateGridList(0, 5, ww,hh, false, tab)
 
-			cols0.id = guiGridListAddColumn(grid, "ID", 0.2)
-			cols0.aid = guiGridListAddColumn(grid, "Allocated ID", 0.2)
+			cols0.id = guiGridListAddColumn(grid, "Custom ID", 0.2)
+			cols0.aid = guiGridListAddColumn(grid, "Model", 0.2)
 			cols0.pos = guiGridListAddColumn(grid, "Position", 0.5)
 
 			addEventHandler( "onClientGUIDoubleClick", grid, 
@@ -188,8 +188,8 @@ function createTestWindow(version, title, data)
 						guiGridListSetItemText(grid, row, cols0.aid, allocated_id, false, true)
 					end
 				else
-					guiGridListSetItemText(grid, row, cols0.id, getElementModel(element), false, true)
-					guiGridListSetItemText(grid, row, cols0.aid, "-", false, true)
+					guiGridListSetItemText(grid, row, cols0.id, "-", false, true)
+					guiGridListSetItemText(grid, row, cols0.aid, getElementModel(element), false, true)
 				end
 
 

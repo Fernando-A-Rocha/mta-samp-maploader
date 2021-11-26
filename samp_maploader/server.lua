@@ -16,6 +16,7 @@ local startTickCount = getTickCount()
 local SERVER_READY = false
 
 local parsed_maps = {}
+local contain_added = {}
 
 function unloadMapCmd(thePlayer, cmd, map_id)
 	if not SERVER_READY then
@@ -138,13 +139,14 @@ function parseTextureStudioMaps()
 	for _, map in pairs(mapList) do
 
 		local path = ":"..getResourceName(getThisResource()).."/"..map.path
-		local parsed, reason, objects_used = parseTextureStudioMap(path)
+		local parsed, reason, objects_used, added_new = parseTextureStudioMap(path)
 		if not (type(parsed)=="table") then
 			outputDebugString("Failed to parse map ID "..map.id.." ('"..map.path.."'), reason: "..reason, 1)
 		else
 
 			-- parsed map content
 			parsed_maps[map.id] = parsed
+			if added_new then contain_added[map.id] = true end
 		end
 	end
 	
@@ -182,9 +184,15 @@ end
 function sendResultWhenReady(player)
 	if SERVER_READY then
 
+		if (table.size(parsed_maps)) == 0 then
+			outputDebugString(getPlayerName(player).." requested maps but none had been parsed", 2)
+			return
+		end
+
 		-- only send maps which are auto-load on startup request
 
 		local autoload_maps = {}
+		local check_models = false
 
 		for mapid,content in pairs(parsed_maps) do
 			local autoload
@@ -198,10 +206,14 @@ function sendResultWhenReady(player)
             if autoload == true then
             	autoload_maps[mapid] = content
             end
+
+            if contain_added[mapid] then
+            	check_models = true
+            end
 		end
 
 		startTickCount = nil
-		triggerLatentClientEvent(player, "samp_maps:loadAll", resourceRoot, autoload_maps)
+		triggerClientEvent(player, "samp_maps:loadAll", resourceRoot, autoload_maps, check_models)
 	else
 		if (getTickCount() - startTickCount) > 10000 then
 
@@ -216,12 +228,6 @@ end
 
 addEvent("samp_maps:request", true)
 function clientStartupRequest()
-
-	if (table.size(parsed_maps)) == 0 then
-		outputDebugString(getPlayerName(client).." requested maps but none had been parsed", 2)
-		return
-	end
-
 	sendResultWhenReady(client)	
 end
 addEventHandler("samp_maps:request", resourceRoot, clientStartupRequest)
