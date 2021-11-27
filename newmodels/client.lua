@@ -335,6 +335,8 @@ function freeElementCustomMod(id)
 			if test1 then
 				outputDebugString("["..(eventname or "?").."] Freed allocated ID "..allocated_id.." for mod ID "..id..": element not streamed in", 0, r,g,b)
 			elseif test2 then
+
+				outputDebugString("["..(eventname or "?").."] => "..tostring(getElementData(foundElement, dataName)).." ~= "..id, r,g,b)
 				outputDebugString("["..(eventname or "?").."] Freed allocated ID "..allocated_id.." for mod ID "..id..": element streamed in with different custom model or default model", r,g,b)
 			else
 				outputDebugString("["..(eventname or "?").."] Freed allocated ID "..allocated_id.." for mod ID "..id..": no element found", 0,r,g,b)
