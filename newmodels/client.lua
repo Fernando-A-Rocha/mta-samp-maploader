@@ -293,22 +293,30 @@ function freeElementCustomMod(id)
 					end
 
 					-- object bug fix magic
-					if isTimer(prevent_object_bug[element]) then killTimer(prevent_object_bug[element]) end
 					if et2 == "object" then
+						if isTimer(prevent_object_bug[element]) then killTimer(prevent_object_bug[element]) end
 						prevent_object_bug[element] = setTimer(function()
 							if isElementStreamedIn(element) then
-								local id3 = tonumber(getElementData(element, dataNames["object"]))
-								if id3 then
-									local aid = allocated_ids[id3]
-									if aid then
-										setElementModel(element, aid)
-									else
-										local aid2 = allocateNewMod(element, "object", id3)
-										if aid2 then
-											setElementModel(element, aid2)
-										end
-									end
+								
+								local objdim = getElementDimension(element)
+								local playerdim = getElementDimension(localPlayer)
+								if objdim ~= playerdim then
+									outputChatBox("[BUG] Object should not be streamed but is.")
+									outputChatBox("[BUG] Object dim: "..objdim.." vs Player dim: "..playerdim)
 								end
+
+								-- local id3 = tonumber(getElementData(element, dataNames["object"]))
+								-- if id3 then
+								-- 	local aid = allocated_ids[id3]
+								-- 	if aid then
+								-- 		setElementModel(element, aid)
+								-- 	else
+								-- 		local aid2 = allocateNewMod(element, "object", id3)
+								-- 		if aid2 then
+								-- 			setElementModel(element, aid2)
+								-- 		end
+								-- 	end
+								-- end
 							end
 							prevent_object_bug[element] = nil
 						end, 2000, 1)
@@ -335,8 +343,6 @@ function freeElementCustomMod(id)
 			if test1 then
 				outputDebugString("["..(eventname or "?").."] Freed allocated ID "..allocated_id.." for mod ID "..id..": element not streamed in", 0, r,g,b)
 			elseif test2 then
-
-				outputDebugString("["..(eventname or "?").."] => "..tostring(getElementData(foundElement, dataName)).." ~= "..id, r,g,b)
 				outputDebugString("["..(eventname or "?").."] Freed allocated ID "..allocated_id.." for mod ID "..id..": element streamed in with different custom model or default model", r,g,b)
 			else
 				outputDebugString("["..(eventname or "?").."] Freed allocated ID "..allocated_id.." for mod ID "..id..": no element found", 0,r,g,b)
