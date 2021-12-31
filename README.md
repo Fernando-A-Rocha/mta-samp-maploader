@@ -31,14 +31,9 @@ Add new peds/objects/vehicles in MTA: [mta-add-models](https://github.com/Fernan
 
 ## Prerequisites
 
-You'll need to update your MTA Client to a certain nightly (experimental) [version](https://buildinfo.mtasa.com/):
-- Get the **Windows nightly installer** - *r21026* from [nightly.mtasa.com](https://nightly.mtasa.com/)
-- Update your current MTA installation, type `ver` in F8 in-game to verifiy: `Multi Theft Auto v1.5.9-release-21026`
-
-You'll also need to get a specific MTA Server nightly (experimental) [version](https://buildinfo.mtasa.com/):
-- If updating a server, you need to install it on a separate folder, then move all your settings & resources to it
-- Get the **Windows/Linux server** - *r21026* from [nightly.mtasa.com](https://nightly.mtasa.com/)
-- To check the server's version type `ver` on the console: `MTA:SA Server v1.5.9-release-21026`
+- Get the installers from [nightly.mtasa.com](https://nightly.mtasa.com/)
+- Required minimum MTA Client version `TBA`
+- Required minimum MTA Server version `TBA`
 
 ## Dependencies
 
