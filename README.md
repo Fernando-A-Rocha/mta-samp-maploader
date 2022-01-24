@@ -2,7 +2,7 @@
 
 # Attention
 
-⚠️ NO STABLE RELEASES YET - EXPERIMENTAL ⚠️
+🎉 First stable release has been published, enjoy! 🎉
 
 # About
 
