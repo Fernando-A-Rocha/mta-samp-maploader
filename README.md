@@ -31,9 +31,12 @@ Add new peds/objects/vehicles in MTA: [mta-add-models](https://github.com/Fernan
 
 ## Prerequisites
 
+- Required minimum MTA Server & Client version `1.5.9-9.21125.0`
 - Get the installers from [nightly.mtasa.com](https://nightly.mtasa.com/)
-- Required minimum MTA Client version `TBA`
-- Required minimum MTA Server version `TBA`
+- ![https://i.imgur.com/BmkUosO.png](https://i.imgur.com/BmkUosO.png)
+- Client will auto-update upon joining the server
+- *Find out what the build numbers mean here: [buildinfo.mtasa.com](https://buildinfo.mtasa.com/)*
+- **If you don't have the right version these resources will not work correctly**
 
 ## Dependencies
 
@@ -41,7 +44,7 @@ This project uses resources from some of my other projects that `samp_maploader`
 
 - `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (v1.6.0 edited)
 - `sampobj_reloaded` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (edited)
-  - 👉 [Download](https://github.com/Fernando-A-Rocha/mta-add-models#includes) `models.zip` containing all dff/txd/col files required
+  - 👉 [Download](https://github.com/Fernando-A-Rocha/mta-add-models#includes) `models.zip` containing all dff/txd/col files required (SA-MP Objects)
 
 It's important to start these 2 resources before starting `samp_maploader` in that order.
 
