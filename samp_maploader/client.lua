@@ -122,10 +122,10 @@ function loadTextureStudioMap(mapid,parsed,int,dim)
                 end
             end
         elseif v.f == "remove" then
-            local model,radius,x,y,z = unpack(v.variables)
-            if removeWorldModel(model,radius,x,y,z,int) then
+            local model,x,y,z,radius = unpack(v.variables)
+            if removeWorldModel(model,radius,x,y,z,-1) then
                 table.insert(loaded_maps[mapid].removals, {
-                    model,radius,x,y,z,int
+                    model,x,y,z,radius
                 })
             end
         end
@@ -199,8 +199,8 @@ function unloadTextureStudioMap(mapid)
 
     for k,v in pairs(loaded_maps[mapid].removals) do
     -- Async:foreach(loaded_maps[mapid].removals, function(v)
-        local model,radius,x,y,z,int = unpack(v)
-        restoreWorldModel(model,radius,x,y,z,int)
+        local model,x,y,z,radius = unpack(v)
+        restoreWorldModel(model,radius,x,y,z,-1)
         counts.removals = counts.removals + 1
     end
     -- end)
