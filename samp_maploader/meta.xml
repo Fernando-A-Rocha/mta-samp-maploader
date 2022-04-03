@@ -29,6 +29,7 @@
       <file src="maps/gunshop.pwn"/>
       <file src="maps/prison1.pwn"/>
       <file src="maps/prison2.pwn"/>
+      <file src="maps/lounge.pwn"/>
 
 
    <!-- exported functions -->
@@ -52,4 +53,6 @@
    <script type="shared" src="map_list.lua"/>
    <script type="client" src="client.lua"/>
    <script type="server" src="server.lua"/>
+   
+   <include resource="newmodels"/>
 </meta>

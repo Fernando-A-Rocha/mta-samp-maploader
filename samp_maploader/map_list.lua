@@ -53,7 +53,13 @@ mapList = {
     	int = 1, dim = 4, pos = { 963.8623046875, 926.2041015625, 1001.1 },
 	},
     {
-    	id = 7,
+    	id = 6,
+		autoload = true,
+		
+    	name = "Lounge test", path = "maps/lounge.pwn",
+    	int = 1, dim = 4, pos = { 963.8623046875, 926.2041015625, 1001.1 },
+	},
+		id = 7,
 		autoload = true,
 		
     	name = "Exterior map test", path = "maps/test1.pwn",
