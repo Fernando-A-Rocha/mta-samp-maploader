@@ -19,6 +19,9 @@ dataNames = {
 -- useful for getting a vehicle's base model to fetch its original handling, etc
 baseDataName = "baseID"
 
+KICK_ON_DOWNLOAD_FAILS = true -- kick player if failed to download a file more than X times
+DOWNLOAD_MAX_TRIES = 3 -- Kicked if failed to download a file 3 times, won't happen if above setting is false
+
 
 ----------- DEBUGGING CONFIGURATION -----------
 
@@ -35,3 +38,5 @@ CHAT_DEBUG_MESSAGES = false -- make debug console messages to go chatbox (better
 
 ENABLE_NANDOCRYPT = false
 NANDOCRYPT_EXT = ".nandocrypt"
+
+SHOW_DOWNLOADING = true
