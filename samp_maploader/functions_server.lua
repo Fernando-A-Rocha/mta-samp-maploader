@@ -170,7 +170,7 @@ function parseAddSimpleModel(code)
     return baseid, newid, dffname, txdname
 end
 
-function parseTextureStudioMap(filename) -- [Exported]  type: shared
+function parseTextureStudioMap(filename)
     if fileExists(filename) then 
 
         local result = {}

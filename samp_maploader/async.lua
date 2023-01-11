@@ -360,7 +360,7 @@ class "_Async" {
     -- @param function [callback] Callback function, called when execution finished
     -- Usage:
         -- @usage async:iterate(1, 10000, function(i)
-        --     print(i);
+        --     outputDebugString(i);
         -- end);
     iterate = function(self, from, to, func, callback)
         self:add(function()
@@ -378,7 +378,7 @@ class "_Async" {
                 end
             end
             if (self.debug) then
-                print("[DEBUG]Async iterate: " .. (getTickCount() - a) .. "ms");
+                outputDebugString("[DEBUG]Async iterate: " .. (getTickCount() - a) .. "ms");
             end
             if (callback) then
                 callback();
@@ -398,7 +398,7 @@ class "_Async" {
     -- @param function [callback] Callback function, called when execution finished
     -- Usage:
         -- @usage async:foreach(vehicles, function(vehicle, id)
-        --     print(vehicle.title);
+        --     outputDebugString(vehicle.title);
         -- end);
     foreach = function(self, array, func, callback)
         self:add(function()
@@ -416,7 +416,7 @@ class "_Async" {
                 end
             end
             if (self.debug) then
-                print("[DEBUG]Async foreach: " .. (getTickCount() - a) .. "ms");
+                outputDebugString("[DEBUG]Async foreach: " .. (getTickCount() - a) .. "ms");
             end
             if (callback) then
                 callback();

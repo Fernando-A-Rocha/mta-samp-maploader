@@ -15,13 +15,72 @@
 local loaded_maps = {}
 local last_object
 
+local texturesQueue = {}
+
+-- Prevents falling when teleporting inside an interior
+-- Freezes the player while newmodels is downloading custom mods
+local enteringInterior = nil
+
+function handleModIsReady(modID, index, object,mapid,mat_index,tex_name,color)
+    
+    local elements = setObjectMaterial(object, mat_index,modID,tex_name,color, true)
+    if type(elements) == "table" then
+        table.insert(loaded_maps[mapid].materials, {
+            model = modID,
+            elements = elements,
+        })
+    end
+
+    table.remove(texturesQueue[modID], index)
+
+    if #texturesQueue[modID] == 0 then
+        texturesQueue[modID] = nil
+    end
+end
+
+function handleModDownloadFinished(modID)
+
+    -- outputDebugString("Mod ID "..modID.." finished downloading...", 3)
+
+    local toHandle = {}
+
+    for modID2, list in pairs(texturesQueue) do
+        if modID2 == modID then
+            for i, v in ipairs(list or {}) do
+                local object,mapid,mat_index,tex_name,color = unpack(v)
+                if modID == model_id then
+                    if isElement(object) and loaded_maps[mapid] then
+                        toHandle[#toHandle+1] = {i, object,mapid,mat_index,tex_name,color}
+                    else
+                        iprint(modID, i, object, mapid, loaded_maps[mapid])
+                    end
+                end
+            end
+        end
+    end
+
+    for _,v in ipairs(toHandle) do
+        handleModIsReady(modID, unpack(v))
+    end
+end
+addEventHandler("newmodels:onModFileDownloaded", root, handleModDownloadFinished)
 
 addCommandHandler("bb", function(cmd)
     setElementPosition(localPlayer, 5,5,3.5)
     setElementDimension(localPlayer, 0)
     setElementInterior(localPlayer, 0)
-    setCameraInterior(0)
 end, false)
+
+
+function delayUnfreezePlayer()
+    if exports.newmodels:isBusyDownloading() then
+        enteringInterior = setTimer(delayUnfreezePlayer, 1000, 1)
+    else
+        enteringInterior = nil
+
+        setElementFrozen(localPlayer, false)
+    end
+end
 
 function gotoMapCommand(cmd, map_id)
     if not tonumber(map_id) then
@@ -37,10 +96,18 @@ function gotoMapCommand(cmd, map_id)
                 return
             end
 
-            setElementPosition(localPlayer, unpack(map.pos))
+            if (isTimer(enteringInterior)) then
+                return
+            end
+
+            setElementFrozen(localPlayer, true)
+
+            local x,y,z = unpack(map.pos)
+            setElementPosition(localPlayer, x,y,z, true)
             setElementDimension(localPlayer, map.dim)
             setElementInterior(localPlayer, map.int)
-            setCameraInterior(map.int)
+
+            enteringInterior = setTimer(delayUnfreezePlayer, 2000, 1)
             
             return outputChatBox("Teleported to map ID "..map_id.." named '"..map.name.."'", 0,255,0)
         end
@@ -84,6 +151,7 @@ function loadTextureStudioMap(mapid,parsed,int,dim)
             break
         end
     end
+
     -- Async:foreach(parsed, function(v)
     for _, v in pairs(parsed) do
 
@@ -113,12 +181,19 @@ function loadTextureStudioMap(mapid,parsed,int,dim)
         elseif v.f == "material" then
             if isElement(last_object) then
                 local mat_index,model_id,tex_name,color = unpack(v.variables)
-                local elements = setObjectMaterial(last_object, mat_index,model_id,tex_name,color)
-                if type(elements) == "table" then
-                    table.insert(loaded_maps[mapid].materials, {
-                        model = model_id,
-                        elements = elements,
-                    })
+                if exports.newmodels:isCustomModID(model_id) then
+                    if not texturesQueue[model_id] then
+                        texturesQueue[model_id] = {}
+                    end
+                    table.insert(texturesQueue[model_id], {last_object,mapid,mat_index,tex_name,color})
+                elseif isDefaultObject(model_id) then
+                    local elements = setObjectMaterial(last_object, mat_index,model_id,tex_name,color, false)
+                    if type(elements) == "table" then
+                        table.insert(loaded_maps[mapid].materials, {
+                            model = model_id,
+                            elements = elements,
+                        })
+                    end
                 end
             end
         elseif v.f == "remove" then
@@ -131,6 +206,35 @@ function loadTextureStudioMap(mapid,parsed,int,dim)
         end
     end
     -- end)
+
+    local toHandle = {}
+
+    for modID, list in pairs(texturesQueue) do
+
+        local result, reason = exports.newmodels:forceDownloadMod(modID)
+        if not result then
+            outputDebugString("Error download mod "..modID.." in map ID "..mapid..": "..tostring(reason), 1)
+        else
+            if result == "MOD_READY" then
+                -- outputDebugString("Mod ID "..modID.." already downloaded, proceeding...")
+                for i, v in ipairs(list or {}) do
+                    if not toHandle[modID] then
+                        toHandle[modID] = {}
+                    end
+                    local object,mapid,mat_index,tex_name,color = unpack(v)
+                    toHandle[modID][#toHandle[modID] + 1] = {i, object,mapid,mat_index,tex_name,color}
+                end
+            else
+                -- outputDebugString("Mod ID "..modID.." was not ready, forced download...")
+            end
+        end
+    end
+
+    for modID, list in pairs(toHandle) do
+        for _, v in ipairs(list) do
+            handleModIsReady(modID, unpack(v))
+        end
+    end
 
     last_object = nil
 
@@ -260,11 +364,11 @@ end
 
 function loadMapsWhenReady()
 
-    print("loadMapsWhenReady: Detected mod list received...")
-    removeEventHandler("newmodels:onMapListReceived", localPlayer, loadMapsWhenReady)
+    outputDebugString("loadMapsWhenReady: Detected mod list received...")
+    removeEventHandler("newmodels:onModListReceived", localPlayer, loadMapsWhenReady)
     
     if not toLoad then
-        print("No maps waiting to load ???")
+        outputDebugString("loadMapsWhenReady: No maps waiting to load ???", 1)
         return
     end
     if loadAllMaps(toLoad) then
@@ -275,7 +379,7 @@ end
 function clientStartupLoad(parsed_maps, check_models)
 
     if check_models then
-        print("Maps contain custom models, checking if received...")
+        outputDebugString("Maps contain custom models, checking if received...", 3)
 
         local added_ids = {}
         for id, parsed in pairs(parsed_maps) do
@@ -291,17 +395,17 @@ function clientStartupLoad(parsed_maps, check_models)
 
         for id,_ in pairs(added_ids) do
             if not exports.newmodels:isCustomModID(id) then
-                print("Not all mods received yet, waiting..")
+                outputDebugString("Not all mods received yet, waiting..", 3)
                 toLoad = parsed_maps
-                addEventHandler("newmodels:onMapListReceived", localPlayer, loadMapsWhenReady)
+                addEventHandler("newmodels:onModListReceived", localPlayer, loadMapsWhenReady)
                 return
             end
         end
 
-        print("All added mods already received, loading maps...")
+        outputDebugString("All added mods already received, loading maps...", 3)
         loadAllMaps(parsed_maps)
     else
-        print("No added custom models, loading maps...")
+        proutputDebugStringint("No added custom models, loading maps...", 3)
         loadAllMaps(parsed_maps)
     end
 end
@@ -309,13 +413,13 @@ addEvent("samp_maps:loadAll", true)
 addEventHandler("samp_maps:loadAll", resourceRoot, clientStartupLoad)
 
 function requestMaps()
-    print("Requesting all maps...")
+    outputDebugString("Requesting all maps...", 3)
     triggerServerEvent("samp_maps:request", resourceRoot)
 end
 
 function requestMapsWhenReady()
-    print("requestMapsWhenReady: Detected mod list received...")
-    removeEventHandler("newmodels:onMapListReceived", localPlayer, requestMapsWhenReady)
+    outputDebugString("requestMapsWhenReady: Detected mod list received...", 3)
+    removeEventHandler("newmodels:onModListReceived", localPlayer, requestMapsWhenReady)
 
     requestMaps()
 end
@@ -329,7 +433,7 @@ function (startedResource)
     if exports.newmodels:isClientReady() then
         requestMaps()
     else
-        addEventHandler("newmodels:onMapListReceived", localPlayer, requestMapsWhenReady)
+        addEventHandler("newmodels:onModListReceived", localPlayer, requestMapsWhenReady)
     end
 end)
 

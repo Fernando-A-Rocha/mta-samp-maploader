@@ -1,8 +1,4 @@
-![Banner](https://i.imgur.com/gEXuXuB.png)
-
-# Attention
-
-🎉 Experimental release has been published, enjoy! 🎉
+![Banner](https://i.imgur.com/bKuFhjf.png)
 
 # About
 
@@ -12,7 +8,7 @@ MTA forum topic: *Coming Soon*
 
 Contact (author): Nando#7736 **(Discord)**
 
-## Your opinion matters!
+## Your opinion matters
 
 Click the button to check the project's feedback page:
 
@@ -39,9 +35,10 @@ This project uses 2 resources that `samp_maploader` requires.
 
 It's important to start these 2 resources before starting `samp_maploader` in that order.
 
-## Already using any of the dependencies?
+## Already using one of the dependencies?
 
-If your server already has `newmodels` & `sampobj_reloaded` and you want to install `samp_maploader`, you shouldn't need to re-download those 2 resources if you have the [correct versions](#dependencies). I made the following edits to them:
+If your server already has `newmodels` & `sampobj_reloaded` and you want to install `samp_maploader`, you don't need to re-download those 2 resources if you have the [correct versions](#dependencies). The following edits were made to them, that you can do yourself:
+
 - Removed the test commands from `newmodels`
 - Disabled debug messages in [newmodels/_config.lua](/newmodels/_config.lua)
 - Removed all predefined mods in [newmodels/mod_list.lua](/newmodels/mod_list.lua), [newmodels/meta.xml](/newmodels/meta.xml) and 'models' folder (now deleted)
@@ -53,17 +50,6 @@ If your server already has `newmodels` & `sampobj_reloaded` and you want to inst
 - Download the source code Zip and extract it
 - Place the 3 folders in your server's resources folder
 - Execute command `start samp_maploader` in server console: it will start the dependencies before starting the main resource
-
-## Structure
-
-`samp_maploader` files and folders:
-- `maps`: SA-MP Pawn map files to load
-- `models`: models used by maps to load
-- `list.lua`: list of maps to load
-- `client.lua`: map loading functions
-- `server.lua`: map parsing & sending to client for loading
-- `utility.lua` SA material names and other dff/txd info
-- `files`: shader files
 
 # Tutorial
 
@@ -90,9 +76,7 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 
 6. Use `start samp_maploader` to initiate the resource
 
-7. ‼️ **Important**: If needed, after restarting `newmodels` you will need to restart `sampobj_reloaded` then `samp_maploader` after.
-
-8. ‼️ **Important**: If you are in-game when restarting, you must **wait** a bit before restarting `samp_maploader` as it requires your client to have received the SA-MP objects mod list which happens a few seconds after `sampobj_reloaded` starts.
+7. ‼️ **Important**: If you restart `newmodels`, you will also need to restart `sampobj_reloaded` and then you can restart `samp_maploader`.
 
 # Important Info
 

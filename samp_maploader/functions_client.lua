@@ -55,60 +55,63 @@ end
 
 
 function getTextureNameFromIndex(object,mat_index)
-    local model = getSAMPOrDefaultModel(object)
-    
     local tex_name = nil
 
-    if exports.newmodels:isCustomModID(model) then
-        local samp_filenames = SAMP_FILES[model]
-        if samp_filenames ~= nil then
-            local dffname = string.lower(samp_filenames[1])
-            local materials = SA_MATLIB[dffname]
-            if materials ~= nil then
-                for _,val in ipairs(materials) do
-                    if val.index == mat_index then --
-                        tex_name = val.name
+    local model = getSAMPOrDefaultModel(object)
+    if not model then
+        if (WARN_GET_TEX_NAME_FROM_INDEX) then outputDebugString("Failed to get object model ("..inspect(model)..")", 1) end
+    else
+        if exports.newmodels:isCustomModID(model) then
+            local samp_filenames = SAMP_FILES[model]
+            if samp_filenames ~= nil then
+                local dffname = string.lower(samp_filenames[1])
+                local materials = SA_MATLIB[dffname]
+                if materials ~= nil then
+                    for _,val in ipairs(materials) do
+                        if val.index == mat_index then --
+                            tex_name = val.name
+                        end
                     end
+                else
+                    if (WARN_GET_TEX_NAME_FROM_INDEX) then outputDebugString("(samp) "..dffname.." not in SA_MATLIB", 2) end
+                end
+            end
+        else -- normal SA object
+            local dffname = engineGetModelNameFromID(model)
+            if dffname then
+                dffname = string.lower(dffname)
+                if SA_MATLIB[dffname..".dff"] ~= nil then
+                    for _,val in ipairs(SA_MATLIB[dffname..".dff"]) do
+                        if val.index == mat_index then --
+                            tex_name = val.name
+                        end
+                    end
+                else
+                    if (WARN_GET_TEX_NAME_FROM_INDEX) then outputDebugString(dffname..".dff not in SA_MATLIB", 2) end
                 end
             else
-                outputDebugString("(samp) "..dffname.." not in SA_MATLIB", 2)
+                if (WARN_GET_TEX_NAME_FROM_INDEX) then outputDebugString("Failed to get model name from ID "..inspect(model), 1) end
             end
-        end
-    else -- normal SA object
-        local dffname = string.lower(engineGetModelNameFromID(model))
-        if SA_MATLIB[dffname..".dff"] ~= nil then
-            for _,val in ipairs(SA_MATLIB[dffname..".dff"]) do
-                if val.index == mat_index then --
-                    tex_name = val.name
-                end
-            end
-        else
-            outputDebugString(dffname..".dff not in SA_MATLIB", 2)
         end
     end
     return tex_name
 end
-function getTextureFromName(model_id,tex_name)
+function getTextureFromName(model_id,tex_name,isCustom)
     
     if not tonumber(model_id) then return end
     model_id = tonumber(model_id)
 
-    if exports.newmodels:isCustomModID(model_id) then
+    if isCustom then
         -- we need to obtain the id allocated by MTA
-        
         local allocated_id, reason = exports.newmodels:forceAllocate(model_id)
         if not allocated_id then
-            return outputDebugString("getTextureFromName => Failed to allocate mod ID "..model_id..": "..reason, 1)
+            if (WARN_GET_TEX_FROM_NAME) then outputDebugString("getTextureFromName => Failed to allocate mod ID "..model_id..": "..reason, 1) end
+            return
         end
 
         for name,texture in pairs(engineGetModelTextures(allocated_id,tex_name)) do
             return texture, name
         end
-
-    elseif not isDefaultObject(model_id) then
-        outputDebugString("Unknown model ID: "..model_id, 1)
-        -- prevents MTA error: engineGetModelTextures [Invalid model ID]
-        return
     else
         for name,texture in pairs(engineGetModelTextures(model_id,tex_name)) do
             return texture, name
@@ -130,8 +133,8 @@ function getColor(color)
     end 
 end
 
-function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Exported - Client]
-    -- if true then return true end--disabled (testing)
+function setObjectMaterial(object,mat_index,model_id,tex_name,color,isCustom)
+    -- if true then return end -- testing
 
     --MTA doesn't need lib_name (.txd file) to find texture by name
     if model_id ~= -1 then -- dealing replaced mat objects
@@ -140,7 +143,7 @@ function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Export
 
             -- find the txd name we want to replaced
             local matShader = dxCreateShader( "files/shader.fx" )
-            local matTexture = getTextureFromName(model_id,tex_name)
+            local matTexture = getTextureFromName(model_id,tex_name,isCustom)
             if matTexture ~= nil then
                 
                 -- apply shader attributes
@@ -164,12 +167,12 @@ function setObjectMaterial(object,mat_index,model_id,tex_name,color)  -- [Export
                 target_tex_name = target_tex_name,
                 tex_name = tex_name
             })
-            setElementData(object, "material_info", mat_info)
+            setElementData(object, "material_info", mat_info, false)
 
             return { matShader, matTexture }
         else
             local model = getSAMPOrDefaultModel(object)
-            outputDebugString(string.format( "Unknown material on model: %s, index: %s", tostring(model),tostring(mat_index)), 2)
+            if (WARN_GET_TEX_NAME_FROM_INDEX) then outputDebugString(string.format( "Unknown material on model: %s, index: %s", tostring(model),tostring(mat_index)), 2) end
             return false
         end
     end
