@@ -17,6 +17,10 @@ local last_object
 
 local texturesQueue = {}
 
+-- Prevents falling when teleporting inside an interior
+-- Freezes the player while newmodels is downloading custom mods
+local enteringInterior = nil
+
 function handleModIsReady(modID, index, object,mapid,mat_index,tex_name,color)
     
     local elements = setObjectMaterial(object, mat_index,modID,tex_name,color, true)
@@ -67,6 +71,17 @@ addCommandHandler("bb", function(cmd)
     setElementInterior(localPlayer, 0)
 end, false)
 
+
+function delayUnfreezePlayer()
+    if exports.newmodels:isBusyDownloading() then
+        enteringInterior = setTimer(delayUnfreezePlayer, 1000, 1)
+    else
+        enteringInterior = nil
+
+        setElementFrozen(localPlayer, false)
+    end
+end
+
 function gotoMapCommand(cmd, map_id)
     if not tonumber(map_id) then
         outputChatBox("SYNTAX: /"..cmd.." [Map ID from /listmaps]", 255,194,14)
@@ -81,9 +96,18 @@ function gotoMapCommand(cmd, map_id)
                 return
             end
 
-            setElementPosition(localPlayer, unpack(map.pos))
+            if (isTimer(enteringInterior)) then
+                return
+            end
+
+            setElementFrozen(localPlayer, true)
+
+            local x,y,z = unpack(map.pos)
+            setElementPosition(localPlayer, x,y,z, true)
             setElementDimension(localPlayer, map.dim)
             setElementInterior(localPlayer, map.int)
+
+            enteringInterior = setTimer(delayUnfreezePlayer, 2000, 1)
             
             return outputChatBox("Teleported to map ID "..map_id.." named '"..map.name.."'", 0,255,0)
         end
