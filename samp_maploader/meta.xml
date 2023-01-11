@@ -34,9 +34,10 @@
       <file src="maps/gunshop.pwn"/>
       <file src="maps/prison1.pwn"/>
       <file src="maps/prison2.pwn"/>
-      <file src="maps/lounge.pwn"/>
+      <file src="maps/ext_ElCoronaTest.pwn"/>
 
    <!-- Main Scripts -->
+      <script type="shared" src="_config.lua"/>
       <script type="client" src="async.lua"/>
       <script type="client" src="utility.lua"/>
       <script type="shared" src="functions_shared.lua"/>
@@ -45,9 +46,6 @@
       <script type="shared" src="map_list.lua"/>
       <script type="client" src="client.lua"/>
       <script type="server" src="server.lua"/>   
-
-     <export function="setObjectMaterial" type="client"/>
-     <export function="parseTextureStudioMap" type="server"/>
 
    <!-- shaders -->
      <file src="files/mta-helper.fx"/>

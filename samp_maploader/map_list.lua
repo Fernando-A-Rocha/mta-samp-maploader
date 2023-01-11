@@ -42,28 +42,21 @@ mapList = {
     	id = 4,
 		autoload = true,
 		
-    	name = "Prison Part 1", path = "maps/prison1.pwn",
+    	name = "Prison 1/2", path = "maps/prison1.pwn",
     	int = 1, dim = 4, pos = { 2686.654296875, 1112.6162109375, 1308.5 },
 	},
     {
     	id = 5,
 		autoload = true,
 		
-    	name = "Prison Part 2", path = "maps/prison2.pwn",
-    	int = 1, dim = 4, pos = { 963.8623046875, 926.2041015625, 1001.1 },
-	},
-    {
-    	id = 6,
-		autoload = true,
-		
-    	name = "Lounge test", path = "maps/lounge.pwn",
+    	name = "Prison 2/2", path = "maps/prison2.pwn",
     	int = 1, dim = 4, pos = { 963.8623046875, 926.2041015625, 1001.1 },
 	},
 	{
-		id = 7,
+		id = 6,
 		autoload = true,
 		
-    	name = "Exterior map test", path = "maps/test1.pwn",
+    	name = "El Corona", path = "maps/ext_ElCoronaTest.pwn",
     	int = 0, dim = 0, pos = { 1955.64453125, -2051.765625, 13.2 },
 	},
 }

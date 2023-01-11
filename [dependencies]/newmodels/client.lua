@@ -10,6 +10,8 @@
 addEvent(resName..":receiveModList", true)
 addEvent(resName..":receiveVehicleHandling", true)
 -- addEvent(resName..":onMapListReceived", true) -- deprecated
+addEvent(resName..":onModListReceived", true)
+addEvent(resName..":onModFileDownloaded", true)
 
 
 allocated_ids = {} -- [new id] = allocated id
@@ -319,7 +321,6 @@ function allocateNewMod(element, elementType, id)
 
 	return allocated_id
 end
-
 
 function forceAllocate(id) -- [Exported]
 	id = tonumber(id)
@@ -762,7 +763,11 @@ function setModFileReady(modId, path)
 					end
 				end
 				if all then
+					
 					received_modlist[elementType][k].allReady = true
+					triggerEvent(resName..":onModFileDownloaded", root, mod.id)
+					
+					-- For set element custom model waiting:
 					for element, id in pairs(awaitingSetModel) do
 						if id == modId then
 							if isElement(element) then
@@ -803,6 +808,10 @@ addEventHandler("onClientFileDownloadComplete", root, handleDownloadFinish)
 
 function downloadFirstInQueue()
 	local first = fileDLQueue[1]
+	if not first then
+		outputDebugString("Error getting first in DL queue", 1)
+		return
+	end
 	table.remove(fileDLQueue, 1)
 
 	local modId, path = unpack(first)
@@ -813,6 +822,35 @@ function downloadFirstInQueue()
 		currDownloading = nil
 		outputDebugString("Error trying to download file: "..tostring(path), 1)
 	end
+end
+
+function forceDownloadMod(id) -- [Exported]
+	id = tonumber(id)
+	if not id then return false, "id not number" end
+	local isCustom, mod, elementType2 = isCustomModID(id)
+	if not isCustom then
+		return false, id.." not a custom mod ID"
+	end
+
+	if not mod.allReady then
+		local notReady = {}
+		for path, isReady in pairs(mod.readyPaths) do
+			if not isReady then
+				notReady[#notReady+1] = path
+			end
+		end
+
+		if #notReady > 0 then
+			-- Mod not ready, download files ...
+			for i, path in ipairs(notReady) do
+				downloadModFile(id, path)
+			end
+
+			return true
+		end
+	end
+
+	return "MOD_READY"
 end
 
 function downloadModFile(modId, path)
@@ -862,6 +900,10 @@ function receiveModList(modList)
 
 			modList[elementType][k].paths = paths_
 			modList[elementType][k].readyPaths = readyPaths_
+
+			if not mod.metaDownloadFalse then
+				modList[elementType][k].allReady = true
+			end
 		end
 	end
 
@@ -871,6 +913,7 @@ function receiveModList(modList)
 
 	-- for other resources to handle
 	-- triggerEvent(resName..":onMapListReceived", localPlayer) -- deprecated
+	triggerEvent(resName..":onModListReceived", localPlayer) -- deprecated
 
 	if updateElementsInQueue() then
 		updateStreamedElements()
