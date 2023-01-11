@@ -324,6 +324,7 @@ function allocateNewMod(element, elementType, id)
 	return allocated_id
 end
 
+
 function forceAllocate(id) -- [Exported]
 	id = tonumber(id)
 	if not id then return false, "id not number" end
@@ -978,17 +979,14 @@ function (startedResource)
 	triggerLatentServerEvent(resName..":requestModList", resourceRoot)
 end)
 
-
 local sw, sh = guiGetScreenSize()
 function showDownloadingDialog()
 	local queueSize = #fileDLQueue
 	local text = "Downloading... (".. (queueSize == 1 and "last one" or (queueSize.." left")) ..")\n "
-
 	local curr = currDownloading
 	if curr then
 		local modId, path = unpack(curr)
 		text = text..""..path.." (Mod #"..modId..")"
 	end
-
 	dxDrawText(text, 0, 0, sw, 45, tocolor(255, 255, 0, 255), 1.00, "default-bold", "right", "center", false, false, false, false, false)
 end
