@@ -430,7 +430,8 @@ function (startedResource)
     -- Async:setDebug(true)
     -- Async:setPriority("low")
 
-    if exports.newmodels:isClientReady() then
+    local newModelsRes = getResourceFromName("newmodels")
+    if newModelsRes and getResourceState(newModelsRes)=="running" and exports.newmodels:isClientReady() then
         requestMaps()
     else
         addEventHandler("newmodels:onModListReceived", localPlayer, requestMapsWhenReady)
