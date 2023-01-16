@@ -16,40 +16,35 @@ Click the button to check the project's feedback page:
 
 # Getting Started
 
-## Prerequisites
-
-- Required minimum MTA Server & Client version `1.5.9-9.21125.0`
-- Get the installers from [nightly.mtasa.com](https://nightly.mtasa.com/)
-- ![https://i.imgur.com/BmkUosO.png](https://i.imgur.com/BmkUosO.png)
-- Client will auto-update upon joining the server
-- *Find out what the build numbers mean here: [buildinfo.mtasa.com](https://buildinfo.mtasa.com/)*
-- **If you don't have the right version these resources will not work correctly**
-
 ## Dependencies
 
 This project uses 2 resources that `samp_maploader` requires.
 
-- `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models) (v1.6.9)
+- `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models)
 - `sampobj_reloaded` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models)
-  - 👉 [Download](https://github.com/Fernando-A-Rocha/mta-add-models#includes) `models.zip` containing all dff/txd/col files required (SA-MP Objects)
-
-It's important to start these 2 resources before starting `samp_maploader` in that order.
-
-## Already using one of the dependencies?
-
-If your server already has `newmodels` & `sampobj_reloaded` and you want to install `samp_maploader`, you don't need to re-download those 2 resources if you have the [correct versions](#dependencies). The following edits were made to them, that you can do yourself:
-
-- Removed the test commands from `newmodels`
-- Disabled debug messages in [newmodels/_config.lua](/newmodels/_config.lua)
-- Removed all predefined mods in [newmodels/mod_list.lua](/newmodels/mod_list.lua), [newmodels/meta.xml](/newmodels/meta.xml) and 'models' folder (now deleted)
-- Removed the test command from `sampobj_reloaded`
 
 ## Installing
 
-- Get the latest release: [here](https://github.com/Fernando-A-Rocha/mta-samp-maploader/releases/latest)
-- Download the source code Zip and extract it
-- Place the 3 folders in your server's resources folder
-- Execute command `start samp_maploader` in server console: it will start the dependencies before starting the main resource
+### Download Everything
+
+- Go to the latest **mta-add-models** release page: [link](https://github.com/Fernando-A-Rocha/mta-add-models/releases/latest)
+- Download the following resources (dependencies):
+  - `newmodels`
+  - `sampobj_reloaded`
+    - [Download](https://github.com/Fernando-A-Rocha/mta-add-models#includes) `models.zip` containing all dff/txd/col files required (SA-MP Objects)
+- Go to the latest **mta-samp-maploader** release page: [link](https://github.com/Fernando-A-Rocha/mta-samp-maploader/releases/latest)
+- Download the `samp_maploader` resource
+- Place the 3 folders you downloaded in your server's resources folder
+- Execute command `refresh` in server console to see if all 3 resources are loaded successfully
+
+### Edit the Dependencies
+
+Here are some changes you could make to the dependencies:
+
+- Remove the test commands from `newmodels`
+- Disable debug messages in [newmodels/_config.lua](/newmodels/_config.lua)
+- Remove all predefined mods in [newmodels/mod_list.lua](/newmodels/mod_list.lua), [newmodels/meta.xml](/newmodels/meta.xml) and 'models' folder
+- Remove the test commands from `sampobj_reloaded`
 
 # Tutorial
 
@@ -76,14 +71,11 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 
 6. Use `start samp_maploader` to initiate the resource
 
-7. ‼️ **Important**: If you restart `newmodels`, you will also need to restart `sampobj_reloaded` and then you can restart `samp_maploader`.
+7. ‼️ **Important**: If you restart `newmodels`, you will also need to restart `samp_maploader`.
 
 # Important Info
 
 - MTA currently limits the amount of objects you can stream within a small radius (memory issue). It's very noticeable when in SA-MP interiors with a lot of objects, e.g. test map #2
-- Transparent materials currently don't work when applied with SetObjectMaterial **(todo)** [issue 2](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/2)
-- Material color currently has no effect when applied with SetObjectMaterial **(todo)** [issue 3](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/3)
-- setObjectMaterialText is currently not supported **(todo)** [issue 4](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/4)
 
 # Generating Collision Files
 
