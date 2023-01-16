@@ -29,7 +29,7 @@ This project uses 2 resources that `samp_maploader` requires.
 - Download the following resources (dependencies):
   - `newmodels`
   - `sampobj_reloaded`
-    - [Download](https://github.com/Fernando-A-Rocha/mta-add-models#includes) `models.zip` containing all dff/txd/col files required (SA-MP Objects)
+    - [Download](https://www.mediafire.com/file/mgqrk0rq7jrgsuc/models.zip/file) `models.zip` containing all dff/txd/col files required (SA-MP Objects)
 - Go to the latest **mta-samp-maploader** release page: [link](https://github.com/Fernando-A-Rocha/mta-samp-maploader/releases/latest)
 - Download the `samp_maploader` resource
 - Place the 3 folders you downloaded in your server's resources folder
