@@ -1,6 +1,4 @@
-![Banner](https://i.imgur.com/bKuFhjf.png)
-
-# About
+![Banner](https://i.imgur.com/zynzF9k.png)
 
 **mta-samp-maploader** is a MTA resource that reads SA-MP map code in Pawn and loads the map objects and other elements in MTA.
 
