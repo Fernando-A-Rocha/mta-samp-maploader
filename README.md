@@ -23,6 +23,8 @@ This project uses 2 resources that `samp_maploader` requires.
 
 ## Installing
 
+**No stable release has yet been released! Proceed at your own risk.**
+
 ### Download Everything
 
 - Go to the latest **mta-add-models** release page: [link](https://github.com/Fernando-A-Rocha/mta-add-models/releases/latest)

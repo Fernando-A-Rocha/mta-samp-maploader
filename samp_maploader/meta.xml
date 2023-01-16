@@ -3,7 +3,7 @@
    <info author="Fernando"
     name="SAMP Map Loader"
     description="parses and loads SA-MP Pawn maps"
-    version="2.0"
+    version="1.0.0"
     type="script" />
 
    <!-- because of engineGetModelTextures -->
