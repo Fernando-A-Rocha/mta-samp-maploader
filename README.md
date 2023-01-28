@@ -60,7 +60,7 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 3. Place custom model files in [samp_maploader/models](samp_maploader/models)
     - This is required if your map has any `added objects` using `AddSimpleModel` 
     - Must have dot `dff, txd and col` files **for each new object**
-    - If you don't have a collision file for your model check [this tutorial](/docs/TUTORIAL_COL.md)
+    - If you don't have a collision file for your model check [this tutorial](/.github/docs/TUTORIAL_COL.md)
 
 4. List custom model files (**dff + txd + col**) in [samp_maploader/meta.xml](samp_maploader/meta.xml) under `<!-- SA-MP Map Models -->`
     - This is required if your map has any `added objects` using `AddSimpleModel` 
@@ -79,7 +79,7 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 
 # Generating Collision Files
 
-There's a tool to generate a `.col` file from a given `.dff` model. Check out the tutorial [here](/docs/TUTORIAL_COL.md).
+There's a tool to generate a `.col` file from a given `.dff` model. Check out the tutorial [here](/.github/docs/TUTORIAL_COL.md).
 
 # Final Note
 
