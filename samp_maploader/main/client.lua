@@ -63,7 +63,7 @@ function handleModDownloadFinished(modID)
         handleModIsReady(modID, unpack(v))
     end
 end
-addEventHandler("newmodels:onModFileDownloaded", root, handleModDownloadFinished)
+addEventHandler("newmodels:onModFileDownloaded", localPlayer, handleModDownloadFinished)
 
 addCommandHandler("bb", function(cmd)
     setElementPosition(localPlayer, 5,5,3.5)
