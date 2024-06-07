@@ -2,16 +2,6 @@
 
 **mta-samp-maploader** is a MTA resource that reads SA-MP map code in Pawn and loads the map objects and other elements in MTA.
 
-MTA forum topic: *Coming Soon*
-
-Contact (author): Nando#7736 **(Discord)**
-
-## Your opinion matters
-
-Click the button to check the project's feedback page:
-
-[<img src="https://i.imgur.com/x19GaN1.png?1">](https://github.com/Fernando-A-Rocha/mta-samp-maploader/issues/1)
-
 # Getting Started
 
 ## Dependencies
@@ -20,10 +10,6 @@ This project uses 2 resources that `samp_maploader` requires.
 
 - `newmodels` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models)
 - `sampobj_reloaded` from [mta-add-models](https://github.com/Fernando-A-Rocha/mta-add-models)
-
-## Installing
-
-**No stable release has yet been released! Proceed at your own risk.**
 
 ### Download Everything
 
@@ -80,9 +66,3 @@ With this `samp_maploader` resource you can load SA-MP maps in the Pawn format. 
 # Generating Collision Files
 
 There's a tool to generate a `.col` file from a given `.dff` model. Check out the tutorial [here](/.github/docs/TUTORIAL_COL.md).
-
-# Final Note
-
-Feel free to update this README.md if you wish to improve it.
-
-Thank you for reading, have fun!
